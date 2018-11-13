@@ -45,7 +45,7 @@ if __name__ == '__main__':
         config.General.requestName = task[0]
         config.Data.outputPrimaryDataset = task[1]
         config.Data.outputDatasetTag = task[1]
-        config.JobType.psetName = task[2]
+        config.JobType.psetName = '{}.py'.format(task[2])
 
         p = Process(target=submit, args=(config,))
         p.start()
