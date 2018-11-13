@@ -38,7 +38,7 @@ if __name__ == '__main__':
     tasks=list()
 
     tasks.append(('VBFHToPseudoscalarTauTau_GEN','VBFHToPseudoscalarTauTau_M125_13TeV_powheg_pythia8_2017-GEN','VBFPS_GEN'))
-    tasks.append(('VBFHToMaxMixTauTau_GEN','VBFHToMaxmixTauTau_M125_13TeV_powheg_pythia8_2017-GEN','VBFMM_GEN'))
+    tasks.append(('VBFHToMaxmixTauTau_GEN','VBFHToMaxmixTauTau_M125_13TeV_powheg_pythia8_2017-GEN','VBFMM_GEN'))
 
     for task in tasks:
         print task[0]
