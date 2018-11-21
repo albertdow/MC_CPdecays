@@ -2,20 +2,23 @@ from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 from multiprocessing import Process
 config = config()
 
-config.General.workArea        = 'MC_PH_GEN'
+config.General.workArea        = 'MC_PH_GEN_20Nov18'
 config.General.transferOutputs = True
 config.General.transferLogs    = True
-config.JobType.numCores = 4
+
 config.JobType.pluginName = 'PrivateMC'
+config.JobType.numCores = 4
+config.JobType.maxMemoryMB = 8000
 
 config.Data.inputDBS             = 'global'
 config.Data.splitting            = 'EventBased'
 config.Data.unitsPerJob          = 500
-config.Data.totalUnits           = 100000
-config.Data.outLFNDirBase        = '/store/user/{}/PHMC/'.format(getUsernameFromSiteDB())
+config.Data.totalUnits           = 5000000
+config.Data.outLFNDirBase        = '/store/user/{}/PHMC_20Nov18/'.format(getUsernameFromSiteDB())
 config.Data.publication          = True
 
 config.Site.storageSite = 'T2_UK_London_IC'
+config.Site.blacklist = ['T2_RU_*']
 
 if __name__ == '__main__':
 
@@ -37,8 +40,11 @@ if __name__ == '__main__':
 
     tasks=list()
 
-    tasks.append(('VBFHToPseudoscalarTauTau_GEN','VBFHToPseudoscalarTauTau_M125_13TeV_powheg_pythia8_2017-GEN','VBFPS_GEN'))
-    tasks.append(('VBFHToMaxmixTauTau_GEN','VBFHToMaxmixTauTau_M125_13TeV_powheg_pythia8_2017-GEN','VBFMM_GEN'))
+    # tasks.append(('VBFHToPseudoscalarTauTau_GEN','VBFHToPseudoscalarTauTau_M125_13TeV_powheg_pythia8_2017-GEN_TEST4','VBFPS_GEN'))
+    # tasks.append(('VBFHToMaxmixTauTau_GEN','VBFHToMaxmixTauTau_M125_13TeV_powheg_pythia8_2017-GEN_TEST4','VBFMM_GEN'))
+
+    tasks.append(('GluGluHToPseudoScalarTauTau_GEN','GluGluHToPseudoscalarTauTau_M125_13TeV_powheg_pythia8_2017-GEN_TEST','ggHPS_GEN'))
+    tasks.append(('GluGluHToMaxmixTauTau_GEN','GluGluHToMaxmixTauTau_M125_13TeV_powheg_pythia8_2017-GEN_TEST','ggHMM_GEN'))
 
     for task in tasks:
         print task[0]
