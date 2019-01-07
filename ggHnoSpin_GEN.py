@@ -2,7 +2,7 @@
 # using:
 # Revision: 1.19
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
-# with command line options: Configuration/GenProduction/python/HIG-RunIIFall17wmLHEGS-00465-fragment.py --fileout file:HIG-RunIIFall17wmLHEGS-00465.root --mc --eventcontent RAWSIM,LHE --datatier GEN-SIM,LHE --conditions 93X_mc2017_realistic_v3 --beamspot Realistic25ns13TeVEarly2017Collision --step LHE,GEN,SIM --nThreads 4 --geometry DB:Extended --era Run2_2017 --python_filename HIG-RunIIFall17wmLHEGS-00465_1_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 433
+# with command line options: Configuration/GenProduction/python/HIG-RunIIFall17wmLHEGS-02619-fragment.py --fileout file:HIG-RunIIFall17wmLHEGS-02619.root --mc --eventcontent RAWSIM,LHE --datatier GEN-SIM,LHE --conditions 93X_mc2017_realistic_v3 --beamspot Realistic25ns13TeVEarly2017Collision --step LHE,GEN,SIM --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename HIG-RunIIFall17wmLHEGS-02619_1_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring --customise_commands process.RandomNumberGeneratorService.externalLHEProducer.initialSeed=int(1542798870%100) -n 1229
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
@@ -26,7 +26,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(433)
+    input = cms.untracked.int32(1229)
 )
 
 # Input source
@@ -38,7 +38,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    annotation = cms.untracked.string('Configuration/GenProduction/python/HIG-RunIIFall17wmLHEGS-00465-fragment.py nevts:433'),
+    annotation = cms.untracked.string('Configuration/GenProduction/python/HIG-RunIIFall17wmLHEGS-02619-fragment.py nevts:1229'),
     name = cms.untracked.string('Applications'),
     version = cms.untracked.string('$Revision: 1.19 $')
 )
@@ -56,7 +56,7 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
         filterName = cms.untracked.string('')
     ),
     eventAutoFlushCompressedSize = cms.untracked.int32(20971520),
-    fileName = cms.untracked.string('file:HIG-RunIIFall17wmLHEGS-00465.root'),
+    fileName = cms.untracked.string('file:HIG-RunIIFall17wmLHEGS-02619.root'),
     outputCommands = process.RAWSIMEventContent.outputCommands,
     splitLevel = cms.untracked.int32(0)
 )
@@ -66,7 +66,7 @@ process.LHEoutput = cms.OutputModule("PoolOutputModule",
         dataTier = cms.untracked.string('LHE'),
         filterName = cms.untracked.string('')
     ),
-    fileName = cms.untracked.string('file:HIG-RunIIFall17wmLHEGS-00465_inLHE.root'),
+    fileName = cms.untracked.string('file:HIG-RunIIFall17wmLHEGS-02619_inLHE.root'),
     outputCommands = process.LHEEventContent.outputCommands,
     splitLevel = cms.untracked.int32(0)
 )
@@ -80,30 +80,17 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, '93X_mc2017_realistic_v3', '')
 
 process.generator = cms.EDFilter("Pythia8HadronizerFilter",
-    ExternalDecays = cms.PSet(
-        Tauola = cms.untracked.PSet(
-            InputCards = cms.PSet(
-                mdtau = cms.int32(0),
-                pjak1 = cms.int32(0),
-                pjak2 = cms.int32(0)
-            ),
-            UseTauolaPolarization = cms.bool(True),
-            parameterSets = cms.vstring('setHiggsScalarPseudoscalarPDG',
-                'setHiggsScalarPseudoscalarMixingAngle'),
-            setHiggsScalarPseudoscalarMixingAngle = cms.double(1.57079),
-            setHiggsScalarPseudoscalarPDG = cms.int32(25)
-        ),
-        parameterSets = cms.vstring('Tauola')
-    ),
     PythiaParameters = cms.PSet(
         parameterSets = cms.vstring('pythia8CommonSettings',
             'pythia8CP5Settings',
             'pythia8PowhegEmissionVetoSettings',
             'processParameters'),
-        processParameters = cms.vstring('POWHEG:nFinal = 3',
+        processParameters = cms.vstring('POWHEG:nFinal = 1',
             '25:onMode = off',
             '25:onIfMatch = 15 -15',
-            '25:m0 = 125.0'),
+            '25:m0 = 125.0',
+            'TauDecays:mode = 2',
+            'TauDecays:tauMother = 25'),
         pythia8CP5Settings = cms.vstring('Tune:pp 14',
             'Tune:ee 7',
             'MultipartonInteractions:ecmPow=0.03344',
@@ -140,7 +127,6 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
             'SpaceShower:pTmaxMatch = 2',
             'TimeShower:pTmaxMatch = 2')
     ),
-    UseExternalGenerators = cms.untracked.bool(True),
     comEnergy = cms.double(13000.0),
     filterEfficiency = cms.untracked.double(1.0),
     maxEventsToPrint = cms.untracked.int32(1),
@@ -150,8 +136,8 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
 
 
 process.externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
-    args = cms.vstring('/cvmfs/cms.cern.ch/phys_generator/gridpacks/2017/13TeV/powheg/V2/VBF_H_NNPDF31_13TeV_M125/v1/VBF_H_NNPDF31_13TeV_M125_slc6_amd64_gcc630_CMSSW_9_3_0.tgz'),
-    nEvents = cms.untracked.uint32(433),
+    args = cms.vstring('/cvmfs/cms.cern.ch/phys_generator/gridpacks/2017/13TeV/powheg/V2/gg_H_quark-mass-effects_NNPDF31_13TeV_M125/v1/gg_H_quark-mass-effects_NNPDF31_13TeV_M125_slc6_amd64_gcc630_CMSSW_9_3_0.tgz'),
+    nEvents = cms.untracked.uint32(1229),
     numberOfParameters = cms.uint32(1),
     outputFile = cms.string('cmsgrid_final.lhe'),
     scriptName = cms.FileInPath('GeneratorInterface/LHEInterface/data/run_generic_tarball_cvmfs.sh')
@@ -175,7 +161,7 @@ from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
 
 #Setup FWK for multithreaded
-process.options.numberOfThreads=cms.untracked.uint32(4)
+process.options.numberOfThreads=cms.untracked.uint32(8)
 process.options.numberOfStreams=cms.untracked.uint32(0)
 # filter all path with the production filter sequence
 for path in process.paths:
@@ -194,6 +180,7 @@ process = addMonitoring(process)
 
 # Customisation from command line
 
+process.RandomNumberGeneratorService.externalLHEProducer.initialSeed=int(1542798870%100)
 # Add early deletion of temporary data products to reduce peak memory need
 from Configuration.StandardSequences.earlyDeleteSettings_cff import customiseEarlyDelete
 process = customiseEarlyDelete(process)

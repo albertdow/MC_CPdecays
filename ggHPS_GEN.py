@@ -84,13 +84,13 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
         Tauola = cms.untracked.PSet(
             InputCards = cms.PSet(
                 mdtau = cms.int32(0),
-                pjak1 = cms.int32(0),
-                pjak2 = cms.int32(0)
+                pjak1 = cms.int32(4),
+                pjak2 = cms.int32(4)
             ),
             UseTauolaPolarization = cms.bool(True),
             parameterSets = cms.vstring('setHiggsScalarPseudoscalarPDG',
                 'setHiggsScalarPseudoscalarMixingAngle'),
-            setHiggsScalarPseudoscalarMixingAngle = cms.double(1.57079),
+            setHiggsScalarPseudoscalarMixingAngle = cms.double(90),
             setHiggsScalarPseudoscalarPDG = cms.int32(25)
         ),
         parameterSets = cms.vstring('Tauola')
@@ -140,6 +140,7 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
             'SpaceShower:pTmaxMatch = 2',
             'TimeShower:pTmaxMatch = 2')
     ),
+    UseExternalGenerators = cms.untracked.bool(True),
     comEnergy = cms.double(13000.0),
     filterEfficiency = cms.untracked.double(1.0),
     maxEventsToPrint = cms.untracked.int32(1),

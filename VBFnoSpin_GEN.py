@@ -80,21 +80,6 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, '93X_mc2017_realistic_v3', '')
 
 process.generator = cms.EDFilter("Pythia8HadronizerFilter",
-    ExternalDecays = cms.PSet(
-        Tauola = cms.untracked.PSet(
-            InputCards = cms.PSet(
-                mdtau = cms.int32(0),
-                pjak1 = cms.int32(0),
-                pjak2 = cms.int32(0)
-            ),
-            UseTauolaPolarization = cms.bool(True),
-            parameterSets = cms.vstring('setHiggsScalarPseudoscalarPDG',
-                'setHiggsScalarPseudoscalarMixingAngle'),
-            setHiggsScalarPseudoscalarMixingAngle = cms.double(1.57079),
-            setHiggsScalarPseudoscalarPDG = cms.int32(25)
-        ),
-        parameterSets = cms.vstring('Tauola')
-    ),
     PythiaParameters = cms.PSet(
         parameterSets = cms.vstring('pythia8CommonSettings',
             'pythia8CP5Settings',
@@ -103,7 +88,9 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
         processParameters = cms.vstring('POWHEG:nFinal = 3',
             '25:onMode = off',
             '25:onIfMatch = 15 -15',
-            '25:m0 = 125.0'),
+            '25:m0 = 125.0',
+            'TauDecays:mode = 2',
+            'TauDecays:tauMother = 25'),
         pythia8CP5Settings = cms.vstring('Tune:pp 14',
             'Tune:ee 7',
             'MultipartonInteractions:ecmPow=0.03344',
@@ -140,7 +127,6 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
             'SpaceShower:pTmaxMatch = 2',
             'TimeShower:pTmaxMatch = 2')
     ),
-    UseExternalGenerators = cms.untracked.bool(True),
     comEnergy = cms.double(13000.0),
     filterEfficiency = cms.untracked.double(1.0),
     maxEventsToPrint = cms.untracked.int32(1),

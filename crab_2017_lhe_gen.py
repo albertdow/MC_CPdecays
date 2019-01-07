@@ -2,19 +2,19 @@ from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 from multiprocessing import Process
 config = config()
 
-config.General.workArea        = 'MC_PH_GEN_20Nov18'
+config.General.workArea        = 'MC_PH_GEN_07Jan19'
 config.General.transferOutputs = True
 config.General.transferLogs    = True
 
 config.JobType.pluginName = 'PrivateMC'
-config.JobType.numCores = 4
+config.JobType.numCores = 8
 config.JobType.maxMemoryMB = 8000
 
 config.Data.inputDBS             = 'global'
 config.Data.splitting            = 'EventBased'
 config.Data.unitsPerJob          = 500
 config.Data.totalUnits           = 5000000
-config.Data.outLFNDirBase        = '/store/user/{}/PHMC_20Nov18/'.format(getUsernameFromSiteDB())
+config.Data.outLFNDirBase        = '/store/user/{}/PHMC_07Jan19/'.format(getUsernameFromSiteDB())
 config.Data.publication          = True
 
 config.Site.storageSite = 'T2_UK_London_IC'
@@ -40,11 +40,15 @@ if __name__ == '__main__':
 
     tasks=list()
 
-    # tasks.append(('VBFHToPseudoscalarTauTau_GEN','VBFHToPseudoscalarTauTau_M125_13TeV_powheg_pythia8_2017-GEN_TEST4','VBFPS_GEN'))
-    # tasks.append(('VBFHToMaxmixTauTau_GEN','VBFHToMaxmixTauTau_M125_13TeV_powheg_pythia8_2017-GEN_TEST4','VBFMM_GEN'))
+    # tasks.append(('VBFHToPseudoscalarTauTau_GEN','VBFHToPseudoscalarTauTau_M125_13TeV_powheg_pythia8_2017-GEN_TEST10Dec18','VBFPS_GEN'))
+    # tasks.append(('VBFHToMaxmixTauTau_GEN','VBFHToMaxmixTauTau_M125_13TeV_powheg_pythia8_2017-GEN_TEST10Dec18','VBFMM_GEN'))
 
-    tasks.append(('GluGluHToPseudoScalarTauTau_GEN','GluGluHToPseudoscalarTauTau_M125_13TeV_powheg_pythia8_2017-GEN_TEST','ggHPS_GEN'))
-    tasks.append(('GluGluHToMaxmixTauTau_GEN','GluGluHToMaxmixTauTau_M125_13TeV_powheg_pythia8_2017-GEN_TEST','ggHMM_GEN'))
+    # tasks.append(('GluGluHToPseudoScalarTauTau_GEN','GluGluHToPseudoscalarTauTau_M125_13TeV_powheg_pythia8_2017-GEN_TEST14Dec18','ggHPS_GEN'))
+    # tasks.append(('GluGluHToMaxmixTauTau_GEN','GluGluHToMaxmixTauTau_M125_13TeV_powheg_pythia8_2017-GEN_TEST10Dec18','ggHMM_GEN'))
+
+    # with no spin correlations
+    # tasks.append(('VBFHToTauTauNoSpin_GEN','VBFHToMaxmixTauTau_M125_13TeV_powheg_pythia8_2017-GEN_TEST07Jan19','VBFnoSpin_GEN'))
+    tasks.append(('GluGluHToTauTauNoSpin_GEN','GluGluHToPseudoscalarTauTau_M125_13TeV_powheg_pythia8_2017-GEN_TEST07Jan19','ggHnoSpin_GEN'))
 
     for task in tasks:
         print task[0]

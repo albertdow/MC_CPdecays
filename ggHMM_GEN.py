@@ -140,6 +140,7 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
             'SpaceShower:pTmaxMatch = 2',
             'TimeShower:pTmaxMatch = 2')
     ),
+    UseExternalGenerators = cms.untracked.bool(True),
     comEnergy = cms.double(13000.0),
     filterEfficiency = cms.untracked.double(1.0),
     maxEventsToPrint = cms.untracked.int32(1),
